@@ -41,7 +41,7 @@ export const seedData: SeedData = {
   email: 'vldmr_s@icloud.com',
 
   links: [
-    { label: 'GitHub', url: 'https://github.com/r5800h', type: 'GITHUB' },
+    { label: 'GitHub', url: 'https://github.com/scalption', type: 'GITHUB' },
     { label: 'Telegram', url: 'https://t.me/aqtobe_67', type: 'TELEGRAM' },
     { label: 'Email', url: 'mailto:vldmr_s@icloud.com', type: 'EMAIL' },
     { label: 'Телефон', url: 'tel:+77064447070', type: 'OTHER' },
