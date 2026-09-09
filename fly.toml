@@ -1,0 +1,26 @@
+app = "v-card"
+primary_region = "fra"
+
+[build]
+dockerfile = 'Dockerfile'
+
+[deploy]
+release_command = "npx prisma migrate deploy"
+
+[env]
+NODE_ENV = 'production'
+PORT = '3000'
+
+[http_service]
+auto_start_machines = true
+auto_stop_machines = true
+force_https = true
+internal_port = 3000
+min_machines_running = 1
+processes = [ "app" ]
+
+[[vm]]
+cpu_kind = "shared"
+cpus = 1
+memory = "2gb"
+memory_mb = 2048

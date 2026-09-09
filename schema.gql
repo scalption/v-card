@@ -1,0 +1,168 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""
+Место работы
+"""
+type Experience {
+  """
+  Достижения на этой позиции
+  """
+  achievements: [String!]!
+  company: String!
+
+  """
+  Окончание работы
+  """
+  endDate: DateTime
+  id: String!
+
+  """
+  Работаю ли здесь по настоящее время
+  """
+  isCurrent: Boolean!
+  position: String!
+
+  """
+  Начало работы
+  """
+  startDate: DateTime!
+
+  """
+  Краткое описание зоны ответственности
+  """
+  summary: String
+}
+
+"""
+Ссылка на внешний ресурс
+"""
+type Link {
+  id: String!
+
+  """
+  Подпись для отображения".
+  """
+  label: String!
+
+  """
+  Порядок вывода в списке
+  """
+  order: Int!
+  type: LinkType!
+  url: String!
+}
+
+"""
+Тип внешнего ресурса
+"""
+enum LinkType {
+  EMAIL
+  GITHUB
+  LINKEDIN
+  OTHER
+  TELEGRAM
+  WEBSITE
+}
+
+"""
+Профиль специалиста
+"""
+type Profile {
+  description: String!
+  email: String
+  experiences: [Experience!]!
+
+  """
+  Например "Backend-разработчик"
+  """
+  headline: String!
+  id: String!
+  links: [Link!]!
+  location: String
+  name: String!
+  projects(featuredOnly: Boolean = false): [Project!]!
+  skills(category: SkillCategory): [Skill!]!
+
+  """
+  Человекочитаемый идентификатор профиля
+  """
+  slug: String!
+}
+
+"""
+Проект из портфолио.
+"""
+type Project {
+  description: String
+
+  """
+  Закреплён ли проект в начале списка
+  """
+  featured: Boolean!
+  id: String!
+
+  """
+  Ссылка на работающее демо
+  """
+  liveUrl: String
+  name: String!
+
+  """
+  Ссылка на репозиторий
+  """
+  repoUrl: String
+
+  """
+  Использованные технологии
+  """
+  stack: [String!]!
+
+  """
+  Год реализации
+  """
+  year: Int
+}
+
+type Query {
+  """
+  Профиль специалиста
+  """
+  profile(
+    """
+    Идентификатор профиля
+    """
+    slug: String
+  ): Profile!
+}
+
+"""
+Профессиональный навык
+"""
+type Skill {
+  category: SkillCategory!
+  id: String!
+
+  """
+  Уровень владения от 1 до 5
+  """
+  level: Int
+  name: String!
+}
+
+"""
+Категория навыка
+"""
+enum SkillCategory {
+  DATABASE
+  FRAMEWORK
+  LANGUAGE
+  PRACTICE
+  TOOL
+}

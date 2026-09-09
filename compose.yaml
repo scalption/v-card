@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: v-card-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: v_card
+      POSTGRES_PASSWORD: v_card
+      POSTGRES_DB: v_card
+    ports:
+      - '5434:5432'
+    volumes:
+      - data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U v_card -d v_card']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: v-card-app
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://v_card:v_card@db:5432/v_card?schema=public
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - '3000:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  data:

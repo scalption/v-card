@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          String  @id @default(uuid())
+  slug        String  @unique
+  name        String
+  headline    String
+  description String
+  location    String?
+  email       String?
+
+  links       Link[]
+  skills      Skill[]
+  experiences Experience[]
+  projects    Project[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Link {
+  id    String   @id @default(uuid())
+  label String
+  url   String
+  type  LinkType
+  order Int      @default(0)
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+enum LinkType {
+  GITHUB
+  LINKEDIN
+  TELEGRAM
+  EMAIL
+  WEBSITE
+  OTHER
+}
+
+model Skill {
+  id       String        @id @default(uuid())
+  name     String
+  category SkillCategory
+  level    Int?
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, name])
+  @@index([profileId])
+}
+
+enum SkillCategory {
+  LANGUAGE
+  FRAMEWORK
+  DATABASE
+  TOOL
+  PRACTICE
+}
+
+model Experience {
+  id           String    @id @default(uuid())
+  company      String
+  position     String
+  startDate    DateTime
+  endDate      DateTime?
+  summary      String?
+  achievements String[]
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  repoUrl     String?
+  liveUrl     String?
+  stack       String[]
+  featured    Boolean  @default(false)
+  year        Int?
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId])
+}
